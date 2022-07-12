@@ -1,5 +1,5 @@
 from bot import aria2, DOWNLOAD_DIR, LOGGER
-from bot.helper.ext_utils.bot_utils import MirrorStatus
+from bot.helper.ext_utils.bot_utils import MirrorStatus, EngineStatus
 
 def get_download(gid):
     try:
