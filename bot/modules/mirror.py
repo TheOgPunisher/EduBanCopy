@@ -182,7 +182,7 @@ class MirrorListener:
             except Exception as e:
                 LOGGER.error(str(e))
             count = len(download_dict)
-        msg = f"{self.tag} your download has been stopped due to: {error}"
+        msg = f"Umm.. {self.tag} your download has been stopped due to: {error}"
         sendMessage(msg, self.bot, self.message)
         if count == 0:
             self.clean()
@@ -206,7 +206,7 @@ class MirrorListener:
                 source_link = message_args[1]
                 if is_magnet(source_link):
                     link = telegraph.create_page(
-                        title='Helios-Mirror Source Link',
+                        title='Dhruv-Mirror Source Link',
                         content=source_link,
                     )["path"]
                     buttons.buildbutton(f"🔗 Source Link", f"https://telegra.ph/{link}")
@@ -222,7 +222,7 @@ class MirrorListener:
                             source_link = reply_text.strip()
                             if is_magnet(source_link):
                                 link = telegraph.create_page(
-                                    title='Helios-Mirror Source Link',
+                                    title='Dhruv-Mirror Source Link',
                                     content=source_link,
                                 )["path"]
                                 buttons.buildbutton(f"🔗 Source Link", f"https://telegra.ph/{link}")
@@ -248,7 +248,7 @@ class MirrorListener:
                 if fmsg != '':
                     sendMarkup(msg + fmsg, self.bot, self.message, InlineKeyboardMarkup(buttons.build_menu(2)))
         else:
-            msg += f'\n\n<b>Type: </b>{typ}'
+            msg += f'\n\n<b>Select Your Type: </b>{typ}'
             if ospath.isdir(f'{DOWNLOAD_DIR}{self.uid}/{name}'):
                 msg += f'\n<b>SubFolders: </b>{folders}'
                 msg += f'\n<b>Files: </b>{files}'
@@ -263,10 +263,10 @@ class MirrorListener:
                 if ospath.isdir(f'{DOWNLOAD_DIR}/{self.uid}/{name}'):
                     share_url += '/'
                     share_url = short_url(share_url)
-                    buttons.buildbutton("⚡ Index Link", share_url)
+                    buttons.buildbutton("⚡ Index Link ⚡", share_url)
                 else:
                     share_url = short_url(share_url)
-                    buttons.buildbutton("⚡ Index Link", share_url)
+                    buttons.buildbutton("⚡ Index Link ⚡", share_url)
                     if VIEW_LINK:
                         share_urls = f'{INDEX_URL}/{url_path}?a=view'
                         share_urls = short_url(share_urls)
@@ -282,7 +282,7 @@ class MirrorListener:
                     source_link = message_args[1]
                     if is_magnet(source_link):
                         link = telegraph.create_page(
-                            title='Helios-Mirror Source Link',
+                            title='Dhruv-Mirror Source Link',
                             content=source_link,
                         )["path"]
                         buttons.buildbutton(f"🔗 Source Link", f"https://telegra.ph/{link}")
@@ -298,7 +298,7 @@ class MirrorListener:
                         source_link = reply_text.strip()
                         if is_magnet(source_link):
                             link = telegraph.create_page(
-                                title='Helios-Mirror Source Link',
+                                title='Dhruv-Mirror Source Link',
                                 content=source_link,
                             )["path"]
                             buttons.buildbutton(f"🔗 Source Link", f"https://telegra.ph/{link}")
@@ -376,7 +376,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
             pass
     if BOT_PM and message.chat.type != 'private':
         try:
-            msg1 = f'Added your Requested link to Download\n'
+            msg1 = f'Well I have Added your Requested link to Download\n'
             send = bot.sendMessage(message.from_user.id, text=msg1)
             send.delete()
         except Exception as e:
@@ -507,7 +507,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
         if MEGA_KEY is not None:
             Thread(target=MegaDownloader(listener).add_download, args=(link, f'{DOWNLOAD_DIR}{listener.uid}/')).start()
         else:
-            sendMessage('MEGA_API_KEY not Provided!', bot, message)
+            sendMessage('Huh The Owner is Poor He Dont have Mega Premium, Hence MEGA_API_KEY not Provided!', bot, message)
     elif isQbit:
         Thread(target=QbDownloader(listener).add_qb_torrent, args=(link, f'{DOWNLOAD_DIR}{listener.uid}', qbitsel)).start()
     else:
