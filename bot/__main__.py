@@ -25,14 +25,14 @@ def stats(update, context):
         last_commit = check_output(["git log -1 --date=short --pretty=format:'%cd <b>From</b> %cr'"], shell=True).decode()
     else:
         last_commit = 'No UPSTREAM_REPO'
-   currentTime = get_readable_time(time() - botStartTime)
-   total, used, free, disk= disk_usage('/')
-   total = get_readable_file_size(total)
-   used = get_readable_file_size(used)
-   free = get_readable_file_size(free)
-   sent = get_readable_file_size(net_io_counters().bytes_sent)
-   recv = get_readable_file_size(net_io_counters().bytes_recv)
-   cpuUsage = cpu_percent(interval=0.5)
+    currentTime = get_readable_time(time() - botStartTime)
+    total, used, free, disk= disk_usage('/')
+    total = get_readable_file_size(total)
+    used = get_readable_file_size(used)
+    free = get_readable_file_size(free)
+    sent = get_readable_file_size(net_io_counters().bytes_sent)
+    recv = get_readable_file_size(net_io_counters().bytes_recv)
+    cpuUsage = cpu_percent(interval=0.5)
     memory = virtual_memory()
     mem_p = memory.percent
     mem_t = get_readable_file_size(memory.total)
