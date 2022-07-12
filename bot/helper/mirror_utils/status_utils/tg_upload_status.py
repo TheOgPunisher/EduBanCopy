@@ -60,4 +60,4 @@ class TgUploadStatus:
         return self.__obj
 
     def eng(self):
-        return EngineStatus.
+        return self.__obj
