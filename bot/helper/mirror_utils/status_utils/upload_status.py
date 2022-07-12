@@ -60,4 +60,4 @@ class UploadStatus:
         return self.__obj
 
     def eng(self):
-        return EngineStatus.STATUS_GD    
+        return self.__obj   
