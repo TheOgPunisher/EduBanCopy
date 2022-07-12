@@ -59,4 +59,4 @@ class YoutubeDLDownloadStatus:
         return self.__obj
     
     def eng(self):
-        return EngineStatus.STATUS_YT    
+        return self.__obj   
