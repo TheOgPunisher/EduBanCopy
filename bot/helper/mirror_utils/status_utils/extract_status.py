@@ -33,3 +33,6 @@ class ExtractStatus:
 
     def processed_bytes(self):
         return 0
+    
+    def eng(self):
+        return EngineStatus.STATUS_EXT    
