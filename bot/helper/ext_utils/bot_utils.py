@@ -32,6 +32,18 @@ class MirrorStatus:
     STATUS_SPLITTING = "Splitting...✂️"
     STATUS_CHECKING = "CheckingUp...📝"
     STATUS_SEEDING = "Seeding...🌧"
+    
+    
+class EngineStatus:
+    STATUS_ARIA = "Aria2c v1.35.0"
+    STATUS_GD = "Google Api v2.51.0"
+    STATUS_MEGA = "MegaSDK v3.12.0"
+    STATUS_QB = "qBittorrent v4.4.2"
+    STATUS_TG = "Pyrogram v2.0.27"
+    STATUS_YT = "YT-dlp v22.5.18"
+    STATUS_EXT = "pExtract"
+    STATUS_SPLIT = "FFmpeg v2.9.1"
+    STATUS_ZIP = "p7zip v16.02"    
 
 SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 
@@ -162,6 +174,7 @@ def get_readable_message():
             msg += "\n\n"
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
+        bmsg = f"\n<b>_____________________________________</b>"        
         bmsg = f"<b>CPU:</b> {cpu_percent()}% | <b>FREE:</b> {get_readable_file_size(disk_usage(DOWNLOAD_DIR).free)}"
         bmsg += f"\n<b>RAM:</b> {virtual_memory().percent}% | <b>UPTIME:</b> {get_readable_time(time() - botStartTime)}"
         dlspeed_bytes = 0
@@ -283,3 +296,51 @@ def get_content_type(link: str) -> str:
             content_type = None
     return content_type
 
+ONE, TWO, THREE = range(3)
+def pop_up_stats(update, context):
+    query = update.callback_query
+    stats = bot_sys_stats()
+    query.answer(text=stats, show_alert=True)
+def bot_sys_stats():
+    currentTime = get_readable_time(time() - botStartTime)
+    cpu = psutil.cpu_percent()
+    mem = psutil.virtual_memory().percent
+    disk = psutil.disk_usage(DOWNLOAD_DIR).percent
+    total, used, free = shutil.disk_usage(DOWNLOAD_DIR)
+    total = get_readable_file_size(total)
+    used = get_readable_file_size(used)
+    free = get_readable_file_size(free)
+    recv = get_readable_file_size(psutil.net_io_counters().bytes_recv)
+    sent = get_readable_file_size(psutil.net_io_counters().bytes_sent)
+    num_active = 0
+    num_upload = 0
+    num_split = 0
+    num_extract = 0
+    num_archi = 0
+    tasks = len(download_dict)
+    for stats in list(download_dict.values()):
+       if stats.status() == MirrorStatus.STATUS_DOWNLOADING:
+                num_active += 1
+       if stats.status() == MirrorStatus.STATUS_UPLOADING:
+                num_upload += 1
+       if stats.status() == MirrorStatus.STATUS_ARCHIVING:
+                num_archi += 1
+       if stats.status() == MirrorStatus.STATUS_EXTRACTING:
+                num_extract += 1
+       if stats.status() == MirrorStatus.STATUS_SPLITTING:
+                num_split += 1
+    stats = f"Bot Statistics"
+    stats += f"""
+
+Bot Uptime: {currentTime}
+T-DN: {recv} | T-UP: {sent}
+CPU: {cpu}% | RAM: {mem}%
+Disk: {total} | Free: {free}
+Used: {used} [{disk}%]
+
+Thanks For Staying Here.
+"""
+    return stats
+dispatcher.add_handler(
+    CallbackQueryHandler(pop_up_stats, pattern="^" + str(THREE) + "$")
+)
