@@ -30,3 +30,6 @@ class SplitStatus:
 
     def processed_bytes(self):
         return 0
+
+    def eng(self):
+        return EngineStatus.STATUS_SPLIT    
