@@ -19,6 +19,7 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
     mssg = message.text
     user_id = message.from_user.id
     msg_id = message.message_id
+    uname = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
 
     try:
         link = mssg.split(' ')[1].strip()
@@ -98,7 +99,7 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
         buttons.sbutton("Cancel", f"qu {msg_id} cancel")
         YTBUTTONS = InlineKeyboardMarkup(buttons.build_menu(3))
         listener_dict[msg_id] = [listener, user_id, link, name, YTBUTTONS, args]
-        bmsg = sendMarkup('You have 120 seconds. Kindly Choose Playlist Videos Quality:', bot, message, YTBUTTONS)
+        bmsg = sendMarkup('Hey {uname}, You have 120 seconds. Kindly Choose Playlist Videos Quality:', bot, message, YTBUTTONS)
     else:
         formats = result.get('formats')
         formats_dict = {}
@@ -147,7 +148,7 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
         buttons.sbutton("Cancel", f"qu {msg_id} cancel")
         YTBUTTONS = InlineKeyboardMarkup(buttons.build_menu(2))
         listener_dict[msg_id] = [listener, user_id, link, name, YTBUTTONS, args, formats_dict]
-        bmsg = sendMarkup('Choose Video Quality:', bot, message, YTBUTTONS)
+         bmsg = sendMarkup('Hey {uname} You have 120 seconds. Choose your Desired Video Quality Else your task will be cancelled :', bot, message, YTBUTTONS)
 
     Thread(target=_auto_cancel, args=(bmsg, msg_id)).start()
     if multi > 1:
@@ -237,7 +238,7 @@ def select_format(update, context):
         return
     elif data[2] == "cancel":
         query.answer()
-        editMessage('Dear user, Your Task has been cancelled.', msg)
+        editMessage('Dear {uname}, Your Task has been cancelled.', msg)
     else:
         query.answer()
         listener = task_info[0]
@@ -261,7 +262,7 @@ def _auto_cancel(msg, msg_id):
     sleep(120)
     try:
         del listener_dict[msg_id]
-        editMessage('As I said You had 120 seconds to Choose and since you Didnt, Your Task has been cancelled.', msg)
+        editMessage('Hey {uname} As I said You had 120 seconds to Choose and since you Didnt, Your Task has been cancelled.', msg)
     except:
         pass
 
